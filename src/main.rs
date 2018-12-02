@@ -10,21 +10,21 @@ use rand::Rng;
 use rppal::gpio::{Gpio, Level, Mode};
 use rppal::system::DeviceInfo;
 
-fn switch_all_leds(gpio: &mut Gpio, leds: & Vec<u8>, level: Level) {
+fn switch_all_leds(gpio: &mut Gpio, leds: &Vec<u8>, level: Level) {
     println!("switching the lights to {}", level);
     for gpio_led_number in leds {
         gpio.write(*gpio_led_number, level);
     }
 }
 
-fn configure_leds(gpio: &mut Gpio, leds: & Vec<u8>) {
+fn configure_leds(gpio: &mut Gpio, leds: &Vec<u8>) {
     println!("configuring gpio");
     for gpio_led_number in leds {
         gpio.set_mode(*gpio_led_number, Mode::Output);
     }
 }
 
-fn random_leds(rng: &mut StdRng, gpio: &mut Gpio, leds: & Vec<u8>) {
+fn random_leds(rng: &mut StdRng, gpio: &mut Gpio, leds: &Vec<u8>) {
     for gpio_led_number in leds {
         let value = match rng.gen_ratio(18, 20) {
             true => Level::High,
