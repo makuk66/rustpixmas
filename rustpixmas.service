@@ -3,10 +3,12 @@ Description=Rust Christmas Tree Service
 
 [Service]
 Type=simple
-ExecStart=/home/pi/rustpixmas.sh
+ExecStart=/home/pi/rustpixmas
 StandardOutput=null
 Restart=on-failure
 WorkingDirectory=/home/pi
+StandardOutput=journal+console
+StandardError=journal+console
 
 [Install]
 WantedBy=multi-user.target

@@ -5,7 +5,8 @@ extern crate rand;
 use std::thread;
 use std::time::Duration;
 
-use rand::{thread_rng, Rng};
+use rand::Rng;
+use rand::prelude::*;
 
 use rppal::gpio::{Gpio, Mode, Level};
 use rppal::system::DeviceInfo;
@@ -36,7 +37,9 @@ fn main() {
     thread::sleep(Duration::from_secs(2));
 
     println!("starting twinkling");
-    let mut rng = thread_rng();
+    let seed: [u8; 32] = *b"jingle_bells_jingle_all_the_way!";
+    let mut rng: StdRng = SeedableRng::from_seed(seed);
+
     loop {
         for gpio_led_number in 2..27 {
             let value = match rng.gen_ratio(18, 20) {
