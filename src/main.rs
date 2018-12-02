@@ -16,10 +16,26 @@ fn main() {
 
     let mut gpio = Gpio::new().unwrap();
 
+    println!("configuring gpio");
     for gpio_led_number in 2..27 {
         gpio.set_mode(gpio_led_number, Mode::Output);
     }
 
+    println!("switching off the lights");
+    for gpio_led_number in 2..27 {
+        gpio.write(gpio_led_number, Level::Low);
+    }
+
+    thread::sleep(Duration::from_secs(1));
+
+    println!("switching on the lights");
+    for gpio_led_number in 2..27 {
+        gpio.write(gpio_led_number, Level::High);
+    }
+
+    thread::sleep(Duration::from_secs(2));
+
+    println!("starting twinkling");
     let mut rng = thread_rng();
     loop {
         for gpio_led_number in 2..27 {
