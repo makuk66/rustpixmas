@@ -5,6 +5,9 @@
 I bought a [3D Xmas Tree for Raspberry Pi](https://thepihut.com/products/3d-xmas-tree-for-raspberry-pi)
 and assembled it using [these instructions](https://thepihut.com/blogs/raspberry-pi-tutorials/3d-xmas-tree-for-raspberry-pi-assembly-instructions).
 
+I plugged it onto a Raspberry Pi Zero, mounted on an appropriately shaped metal base
+(part of an old argicultural feed drill).
+
 I then wrote a simple Rust program to make the lights flash.
 I cross-compile from my Mac, using `./build.sh` to compile the code and deploy the binary.
 
