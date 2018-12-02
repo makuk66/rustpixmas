@@ -1,19 +1,22 @@
-
-extern crate rppal;
 extern crate rand;
+extern crate rppal;
 
 use std::thread;
 use std::time::Duration;
 
-use rand::Rng;
 use rand::prelude::*;
+use rand::Rng;
 
-use rppal::gpio::{Gpio, Mode, Level};
+use rppal::gpio::{Gpio, Level, Mode};
 use rppal::system::DeviceInfo;
 
 fn main() {
     let device_info = DeviceInfo::new().unwrap();
-    println!("Model: {} (SoC: {})", device_info.model(), device_info.soc());
+    println!(
+        "Model: {} (SoC: {})",
+        device_info.model(),
+        device_info.soc()
+    );
 
     let mut gpio = Gpio::new().unwrap();
 
@@ -44,7 +47,7 @@ fn main() {
         for gpio_led_number in 2..27 {
             let value = match rng.gen_ratio(18, 20) {
                 true => Level::High,
-                false => Level::Low
+                false => Level::Low,
             };
             gpio.write(gpio_led_number, value);
         }
