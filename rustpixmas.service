@@ -1,0 +1,12 @@
+[Unit]
+Description=Rust Christmas Tree Service
+
+[Service]
+Type=simple
+ExecStart=/home/pi/rustpixmas.sh
+StandardOutput=null
+Restart=on-failure
+WorkingDirectory=/home/pi
+
+[Install]
+WantedBy=multi-user.target
