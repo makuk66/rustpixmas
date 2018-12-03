@@ -1,4 +1,4 @@
-# rustpixmas -- A simple rust program to twinkle Christmas tree
+# RustPiXmas -- A simple rust program to twinkle Christmas tree
 
 ![Christmas tree in Rust](rustpixmas.jpg)
 
