@@ -9,7 +9,7 @@ I plugged it onto a Raspberry Pi Zero, mounted on an appropriately shaped metal 
 (part of an old argicultural feed drill).
 
 I then wrote a simple Rust program to make the lights flash.
-I cross-compile from my Mac, using `./build.sh` to compile the code and deploy the binary.
+I cross-compile from my Mac, with [Ragnaroek's rust-on-raspberry-docker](https://github.com/Ragnaroek/rust-on-raspberry-docker) container. I use [build.sh](./build.sh) to build and deploy the binary.
 
 To run it automatically on the Pi, I added a [simple systemd service](rustpixmas.service).
 Install with:
