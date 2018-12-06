@@ -2,6 +2,7 @@
 name = "rustpixmas"
 version = "0.1.0"
 authors = ["Martijn Koster <mak-github@greenhills.co.uk>"]
+edition = "2018"
 
 [dependencies]
 rppal = "0.9"
