@@ -1,6 +1,3 @@
-extern crate rand;
-extern crate rppal;
-
 use std::thread;
 use std::time::Duration;
 
