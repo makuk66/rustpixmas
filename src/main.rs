@@ -7,28 +7,33 @@ use rand::Rng;
 use rppal::gpio::{Gpio, Level, Mode};
 use rppal::system::DeviceInfo;
 
-fn switch_all_leds(gpio: &mut Gpio, leds: &[u8], level: Level) {
+struct Led {
+    gpio_number: u8,
+    level: Level,
+}
+
+impl Led {
+    fn switch_led(&mut self, gpio: &mut Gpio, level: Level) {
+        if level == self.level {
+            return;
+        }
+        gpio.write(self.gpio_number, level);
+        self.level = level
+    }
+}
+
+fn create_led(gpio: &mut Gpio, gpio_number: u8, mode: Mode) -> Led {
+    gpio.set_mode(gpio_number, mode);
+    Led {
+        gpio_number,
+        level: Level::Low,
+    }
+}
+
+fn switch_all_leds(gpio: &mut Gpio, leds: &mut Vec<Led>, level: Level) {
     println!("switching the lights to {}", level);
-    for gpio_led_number in leds {
-        gpio.write(*gpio_led_number, level);
-    }
-}
-
-fn configure_leds(gpio: &mut Gpio, leds: &[u8]) {
-    println!("configuring gpio");
-    for gpio_led_number in leds {
-        gpio.set_mode(*gpio_led_number, Mode::Output);
-    }
-}
-
-fn random_leds(rng: &mut StdRng, gpio: &mut Gpio, leds: &[u8]) {
-    for gpio_led_number in leds {
-        let value = if rng.gen_ratio(18, 20) {
-            Level::High
-        } else {
-            Level::Low
-        };
-        gpio.write(*gpio_led_number, value);
+    for led in leds {
+        led.switch_led(gpio, level);
     }
 }
 
@@ -46,15 +51,16 @@ fn main() {
 
     let mut gpio = Gpio::new().unwrap();
 
-    let leds: Vec<u8> = (2..27).collect();
+    let mut leds = Vec::<Led>::new();
+    for gpio_number in 2..27 {
+        leds.push(create_led(&mut gpio, gpio_number, Mode::Output))
+    }
 
-    configure_leds(&mut gpio, &leds);
-
-    switch_all_leds(&mut gpio, &leds, Level::Low);
+    switch_all_leds(&mut gpio, &mut leds, Level::Low);
 
     thread::sleep(Duration::from_secs(1));
 
-    switch_all_leds(&mut gpio, &leds, Level::High);
+    switch_all_leds(&mut gpio, &mut leds, Level::High);
 
     thread::sleep(Duration::from_secs(2));
 
@@ -62,7 +68,16 @@ fn main() {
     let mut rng: StdRng = SeedableRng::from_seed(*b"jingle_bells_jingle_all_the_way!");
 
     loop {
-        random_leds(&mut rng, &mut gpio, &leds);
+        for led in &mut leds {
+            led.switch_led(
+                &mut gpio,
+                if rng.gen_ratio(18, 20) {
+                    Level::High
+                } else {
+                    Level::Low
+                },
+            )
+        }
         thread::sleep(Duration::from_millis(200));
     }
 }
