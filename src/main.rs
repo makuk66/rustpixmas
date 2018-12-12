@@ -13,20 +13,20 @@ struct Led {
 }
 
 impl Led {
+    fn new(gpio: &mut Gpio, gpio_number: u8, mode: Mode) -> Led {
+        gpio.set_mode(gpio_number, mode);
+        Led {
+            gpio_number,
+            level: Level::Low,
+        }
+    }
+
     fn switch_led(&mut self, gpio: &mut Gpio, level: Level) {
         if level == self.level {
             return;
         }
         gpio.write(self.gpio_number, level);
         self.level = level
-    }
-}
-
-fn create_led(gpio: &mut Gpio, gpio_number: u8, mode: Mode) -> Led {
-    gpio.set_mode(gpio_number, mode);
-    Led {
-        gpio_number,
-        level: Level::Low,
     }
 }
 
@@ -53,7 +53,7 @@ fn main() {
 
     let mut leds = Vec::<Led>::new();
     for gpio_number in 2..27 {
-        leds.push(create_led(&mut gpio, gpio_number, Mode::Output))
+        leds.push(Led::new(&mut gpio, gpio_number, Mode::Output))
     }
 
     switch_all_leds(&mut gpio, &mut leds, Level::Low);
