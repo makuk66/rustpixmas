@@ -37,6 +37,23 @@ fn switch_all_leds(gpio: &mut Gpio, leds: &mut Vec<Led>, level: Level) {
     }
 }
 
+fn twinkle_all_leds(gpio: &mut Gpio, leds: &mut Vec<Led>) -> ! {
+    println!("starting twinkling");
+    let mut rng: StdRng = SeedableRng::from_seed(*b"jingle_bells_jingle_all_the_way!");
+
+    loop {
+        for led in leds.iter_mut() {
+            let level = if rng.gen_ratio(18, 20) {
+                Level::High
+            } else {
+                Level::Low
+            };
+            led.switch_led(gpio, level)
+        }
+        thread::sleep(Duration::from_millis(200));
+    }
+}
+
 fn print_device_info() {
     let device_info = DeviceInfo::new().unwrap();
     println!(
@@ -64,20 +81,5 @@ fn main() {
 
     thread::sleep(Duration::from_secs(2));
 
-    println!("starting twinkling");
-    let mut rng: StdRng = SeedableRng::from_seed(*b"jingle_bells_jingle_all_the_way!");
-
-    loop {
-        for led in &mut leds {
-            led.switch_led(
-                &mut gpio,
-                if rng.gen_ratio(18, 20) {
-                    Level::High
-                } else {
-                    Level::Low
-                },
-            )
-        }
-        thread::sleep(Duration::from_millis(200));
-    }
+    twinkle_all_leds(&mut gpio, &mut leds);
 }
