@@ -21,7 +21,7 @@ impl Led {
         }
     }
 
-    fn switch_led(&mut self, gpio: &mut Gpio, level: Level) {
+    fn switch_to(&mut self, gpio: &mut Gpio, level: Level) {
         if level == self.level {
             return;
         }
@@ -33,7 +33,7 @@ impl Led {
 fn switch_all_leds(gpio: &mut Gpio, leds: &mut Vec<Led>, level: Level) {
     println!("switching the lights to {}", level);
     for led in leds {
-        led.switch_led(gpio, level);
+        led.switch_to(gpio, level);
     }
 }
 
@@ -48,7 +48,7 @@ fn twinkle_all_leds(gpio: &mut Gpio, leds: &mut Vec<Led>) -> ! {
             } else {
                 Level::Low
             };
-            led.switch_led(gpio, level)
+            led.switch_to(gpio, level)
         }
         thread::sleep(Duration::from_millis(200));
     }
