@@ -27,7 +27,7 @@ The [Dockerfile](./Dockerfile) is trivial. The base image is from [Balena](https
 Docker Notes
 ============
 
-The Raspberry Pi I use use is a [Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/), running the latest [Raspbian](https://www.raspberrypi.org/downloads/raspbian/) purchased late 2015.
+The Raspberry Pi I use use is a [Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/) purchased late 2015, running the latest [Raspbian](https://www.raspberrypi.org/downloads/raspbian/).
 
 Instructions for installing Docker on the Raspberry Pi are [in the manual](https://docs.docker.com/install/linux/docker-ce/debian/), which mentions what does and doesn't work on Raspbian. The installation instructions on [this blog post](https://blog.docker.com/2019/03/happy-pi-day-docker-raspberry-pi/) are the same but a little easier to follow. But, that didn't work: `containerd` crashed. `gdb` showed `containerd` crashed with `SIGILL`, similar to [moby/issues/29347](https://github.com/moby/moby/issues/29347#issuecomment-306171942). I found helpful information in [moby/issues/38175](https://github.com/moby/moby/issues/38175). Installing `18.06.3` fixed it.
 
