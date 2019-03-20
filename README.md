@@ -23,6 +23,8 @@ sudo systemctl start rustpixmas.service
 sudo journalctl -u rustpixmas.service
 ```
 
+or use [./docker/README.md](Docker).
+
 ## License
 
 Copyright 2018 Martijn Koster
