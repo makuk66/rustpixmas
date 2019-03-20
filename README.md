@@ -23,7 +23,7 @@ sudo systemctl start rustpixmas.service
 sudo journalctl -u rustpixmas.service
 ```
 
-or use [./docker/README.md](Docker).
+or use [Docker](./docker/README.md].
 
 ## License
 
