@@ -47,4 +47,6 @@ EOM
 root@raspberrypi:~# apt-get install -y -qq --no-install-recommends docker-ce=18.06.3~ce~3-0~raspbian
 ```
 
+The next problem was that without a monitor and keyboad+mouse connected, there was a lack of entropy at boot, which delayed the Docker service starting for minutes. I resolved that by [installing rng-rools](https://www.nico-maas.de/?p=1562) and uncommenting `HRNGDEVICE=/dev/hwrng` in `/etc/default/rng-tools`.
+
 As an alternative to Raspbian, you could use [HypriotOS](https://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/).
